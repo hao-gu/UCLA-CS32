@@ -123,10 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IntWrapper.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="testMapMemoryLeak.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IntWrapper.h" />
     <ClInclude Include="Map.h" />
   </ItemGroup>
   <ItemGroup>

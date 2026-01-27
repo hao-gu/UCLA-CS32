@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <iostream>
 
 Map::Map() {
 	dummy_ = new Node();
@@ -151,6 +152,16 @@ void Map::swap(Map& other) {
 }
 // Exchange the contents of this map with the other one.
 
+void Map::dump() const {
+	Node* p = dummy_->next;
+	while (p != dummy_) {
+		std::cerr << p->key << " " << p->val << '\n';
+		p = p->next;
+	}
+}
+
+
+//private helper functions
 
 Map::Node* Map::findNode(const KeyType& key) const {
 	Node* p = dummy_->next;
@@ -165,7 +176,6 @@ Map::Node* Map::findNode(const KeyType& key) const {
 //returns pointer to node with a specific key, else returns nullptr;
 
 
-//private helper functions
 void Map::add_front(const KeyType& key, const ValueType& value) {
 	Node* nn = new Node;
 	nn->key = key;
@@ -239,8 +249,49 @@ void Map::clear() {
 //non-class functions
 
 bool merge(const Map& m1, const Map& m2, Map& result) {
-	return false;
+	bool return_val = true;
+	Map temp;
+	//add in m1 Map pairs in alphanumeric order
+	for (int i = 0; i < m1.size(); i++) {
+		KeyType key;
+		ValueType val;
+		m1.get(i, key, val);
+		temp.insert(key, val);
+	}
+	//add in m2 pairs in alphanumeric order
+	for (int i = 0; i < m2.size(); i++) {
+		KeyType key;
+		ValueType val;
+		m2.get(i, key, val);
+		ValueType val_2;
+		if (temp.get(key, val_2)) { //if key already exists
+			if (val_2 == val) { // if the value is the same, its okay, contionue and don't add it again
+				continue; //avoid adding item
+			}
+			else { // if val is different, must return false and erase original pair
+				return_val = false;
+				temp.erase(key);
+				continue; //avoid addinf item
+			}
+		}
+		temp.insert(key, val); //add item
+	}
+	//assign result to temp to avoid result aliasing m1 or m2
+	result = temp; //swap would work too
+	return return_val;
 }
 void reassign(const Map& m, Map& result) {
-	return;
+	Map temp;
+	for (int i = 0; i < m.size(); i++) {
+		KeyType key;
+		ValueType val;
+		m.get(i, key, val);
+		
+		KeyType key_2;
+		ValueType val_2;
+		m.get((i+1) % m.size(), key_2, val_2); //for when i = m.size()-1, this ensures val_2 = the value form first Map Item
+
+		temp.insert(key, val_2); //shifts keys right
+	}
+	result = temp; //assign answer
 }
