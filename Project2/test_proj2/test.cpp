@@ -1,0 +1,300 @@
+//DONT TURN THIS IN!!!!!!
+
+#include "Map.h"
+#include <cassert>
+#include <iostream>
+using namespace std;
+void testEmptyAndSize()
+{
+    //self explanatory
+    Map m;
+    assert(m.empty());
+    assert(m.size() == 0);
+}
+
+void testContainsAndGetByKey()
+{
+    Map m;
+    m.insert("x", 10.5);
+    m.insert("a", 11.5);
+    m.insert("b", 12.5);
+
+    //test contain
+    double v = 0;
+    assert(m.contains("x"));
+    assert(m.contains("a"));
+    assert(m.contains("b"));
+    assert(!m.contains("y"));
+
+    //test get by key in case where key exists and case when it doesnt
+    assert(m.get("x", v) && v == 10.5);
+    assert(m.get("a", v) && v == 11.5);
+    assert(m.get("b", v) && v == 12.5);
+    assert(!m.get("y", v));
+}
+
+void testInsert()
+{
+    //see if insert works and updates m_size correctly 
+    Map m;
+
+    assert(m.insert("b", 2.0));
+    assert(m.insert("a", 1.0));
+    assert(!m.insert("a", 3.0));   // duplicate key
+    assert(m.size() == 2);
+    assert(m.contains("a")); //check whether a was added
+    assert(m.contains("b")); //check whether b was added
+
+    //check if order is alphanumeric
+    cerr << "test get insert: \n";
+    m.dump();
+    cerr << '\n';
+}
+
+
+void testUpdate()
+{
+    Map m;
+    m.insert("a", 1.0);
+    m.insert("j", 10.0);
+    m.insert("z", 26.0);
+    //test good case where a is in map and okay
+    assert(m.update("a", 2.0));
+    assert(m.update("j", 11.0));
+    assert(m.update("z", 27.0));
+    //test bad case where b isnt in map
+    assert(!m.update("b", 3.0));
+
+    //check to see whether value updated to 2
+    double v;
+    m.get("a", v);
+    assert(v == 2.0);
+    m.get("j", v);
+    assert(v == 11.0);
+    m.get("z", v);
+    assert(v == 27.0);
+}
+
+void testInsertOrUpdate()
+{
+    Map m;
+
+    assert(m.insertOrUpdate("a", 1.0));  // check insert successful
+    assert(m.insertOrUpdate("b", 2.0));  // check insert successful
+    assert(m.insertOrUpdate("c", 3.0));  // check insert successful
+
+    assert(m.insertOrUpdate("a", 2.0));  // check update successful
+    assert(m.insertOrUpdate("b", 3.0));  // check insert successful
+    assert(m.insertOrUpdate("c", 4.0));  // check update successful
+    //no case for full capacity, since LL has unlimited capacity supposedly. 
+
+    //check whether values udated
+    double v;
+    m.get("a", v);
+    assert(v == 2.0);
+    m.get("b", v);
+    assert(v == 3.0);
+    m.get("c", v);
+    assert(v == 4.0);
+}
+
+void testErase()
+{
+    Map m;
+    m.insert("a", 1.0);
+    m.insert("b", 2.0);
+
+    assert(m.erase("a"));
+    assert(!m.erase("a"));   // already gone, see if it returns false
+    assert(m.size() == 1); // check deletion happened by checking size
+    assert(!m.contains("a")); // affirm map no longer contains a
+    assert(m.contains("b")); //affirm that b still is there
+
+    //test case when only one element in list
+    assert(m.erase("b"));
+    assert(!m.erase("b"));   // already gone, see if it returns false
+    assert(m.size() == 0); // check deletion happened by checking size
+    assert(!m.contains("b"));
+}
+
+void testGetByIndex()
+{
+    Map m;
+    m.insert("a", 1.0);
+    m.insert("b", 2.0);
+    m.insert("c", 3.0);
+    m.insert("d", 4.0);
+    m.insert("e", 5.0);
+
+    string k;
+    double v, v2;
+
+
+    for (int i = 0; i < m.size(); i++) {
+        assert(m.get(i, k, v)); //check if works (in bounds)
+        assert(m.contains(k)); //check if key is in map
+        assert(m.get(k,v2));
+        assert(v2 == v); //check if val lines up with key;
+    }
+
+    //check if order is alphanumeric
+    cerr << "test get by index:\n";
+    m.dump();
+    cerr << '\n';
+
+    //check out of bound i values
+    assert(!m.get(-1, k, v));
+    assert(!m.get(m.size(), k, v));
+}
+
+void testSwap()
+{
+    Map m1;
+    Map m2;
+
+    m1.insert("a", 1.0);
+    m1.insert("b", 2.0);
+
+    m2.insert("x", 9.0);
+
+    m1.swap(m2);
+
+    //check if size swapped
+    assert(m1.size() == 1);
+    assert(m2.size() == 2);
+
+    //check swapped contents 
+    assert(m1.contains("x"));
+    assert(!m1.contains("a"));
+
+    //check swapped contents 
+    assert(m2.contains("a"));
+    assert(m2.contains("b"));
+    assert(!m2.contains("x"));
+
+}
+
+void testCopyConstructor()
+{
+    Map m1;
+    m1.insert("a", 1.0);
+    m1.insert("b", 2.0);
+
+    Map m2(m1);   // copy
+
+    //check contents
+    assert(m2.size() == 2);
+    assert(m2.contains("a"));
+    assert(m2.contains("b"));
+
+    m1.erase("a");
+    assert(m2.contains("a"));   // deep copy check
+}
+
+void testAssignmentOperator()
+{
+    Map m1;
+    m1.insert("a", 1.0);
+    m1.insert("b", 2.0);
+    m1.insert("c", 3.0);
+
+
+    Map m2;
+    m2.insert("x", 9.0);
+
+    m2 = m1;
+
+    assert(m2.size() == 3); //check if size is correct
+    //check whether all items from m1 was assigned to m2
+    assert(m2.contains("a"));
+    assert(m2.contains("b"));
+    assert(m2.contains("c"));
+    assert(!m2.contains("x"));
+}
+
+void testMerge()
+{
+    Map m1;
+    Map m2;
+    Map m3;
+
+    m1.insert("a", 1.0);
+    m1.insert("c", 0.0);
+    m2.insert("b", -5.0);
+    m2.insert("d", -1.0);
+
+    cerr << "testing basic merge \n";
+    merge(m1, m2, m3);
+    cerr << "m1: \n";
+    m1.dump();
+    cerr << "m2: \n";
+    m2.dump();
+    cerr << "m3: \n";
+    m3.dump();
+
+    cerr << "testing alias merge]\n";
+    merge(m1, m2, m1);
+    cerr << "m1: \n";
+    m1.dump();
+    cerr << "m2: \n";
+    m2.dump();
+
+    cerr << "testing safe dupe merge";
+    m2.insert(".", -213.0);
+    assert(merge(m1, m2, m1));
+    cerr << "m1: \n";
+    m1.dump();
+    cerr << "m2: \n";
+    m2.dump();
+
+    cerr << "testing different dupe merge \n";
+
+    Map m4;
+    Map m5;
+    m4.insert("a", 67);
+    m4.insert("b", 67);
+    m4.insert("f", 67);
+    m4.dump();
+    m5.dump();
+    m1.dump();
+    cerr << "-----\n";
+    assert(false == merge(m1, m4, m4));
+    cerr << "m1: \n";
+    m1.dump();
+    cerr << "m4 \n";
+    m4.dump();
+}
+
+void testReassign() {
+    Map m1;
+    Map m2;
+
+    m1.insert("a", 1.0);
+    m1.insert("c", 3.0);
+    m1.insert("b", 2.0);
+    m1.insert("d", 4.0);
+    cerr << "tesing reassign\n";
+    reassign(m1, m2);
+    cerr << "m1: \n";
+    m1.dump();
+    cerr << "m2: \n";
+    m2.dump();
+
+}
+int main()
+{
+    testEmptyAndSize();
+    testContainsAndGetByKey();
+    testInsert();
+    testUpdate();
+    testInsertOrUpdate();
+    testErase();
+    testGetByIndex();
+    testSwap();
+    testCopyConstructor();
+    testAssignmentOperator();
+    testMerge();
+    testReassign();
+
+    cerr << "All Map tests passed!" << endl;
+}

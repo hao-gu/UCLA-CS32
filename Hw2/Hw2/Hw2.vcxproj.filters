@@ -15,22 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="mazestack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mazequeue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="eval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="hw.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="report.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".gitignore" />
   </ItemGroup>
 </Project>
