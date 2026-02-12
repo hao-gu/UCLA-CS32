@@ -8,21 +8,21 @@ public:
     string name() const {
         return name_;
     }
-    virtual bool isOutdoor() const = 0;
+    virtual bool isOutdoor() const { 
+        return true; 
+    }
     virtual string icon() const = 0;
     virtual ~Sport() {}
 private:
     string name_;
-    string icon_;
-    bool isOutdoor_;
 };
 
 class Snowboarding : public Sport {
 public:
     Snowboarding(string name) : Sport(name) {}
-    bool isOutdoor() const {
+    /*bool isOutdoor() const {
         return true;
-    }
+    }*/
     string icon() const {
         return "a snowboarder in a tucked grab";
     }
@@ -34,9 +34,10 @@ public:
 class Biathlon : public Sport {
 public:
     Biathlon(string name, double dist) : Sport(name), distance_(dist) {}
-    bool isOutdoor() const {
+    /*bool isOutdoor() const {
         return true;
     }
+    */
     string icon() const {
         return "a skier with a rifle";
     }
@@ -51,7 +52,7 @@ private:
 class FigureSkating : public Sport {
 public:
     FigureSkating(string name) : Sport(name) {}
-    bool isOutdoor() const {
+    bool isOutdoor() const override {
         return false;
     }
     string icon() const {

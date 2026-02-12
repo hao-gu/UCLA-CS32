@@ -97,7 +97,7 @@ void order(double a[], int n)
 }
 
 
-int main() {
+/*int main() {
     double arr1[7] = { 10, 50, 40, 20, 50, 40, 30 };
     double arr2[3] = { 50, 40, -40 };
     double arr3[3] = { 10, 50, 40 };
@@ -109,4 +109,4 @@ int main() {
     for (double i : arr1) cout << i << " ";
     cout << endl;
     cout << "Passed all test cases";
-}
+}*/
