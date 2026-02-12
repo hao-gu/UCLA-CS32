@@ -27,4 +27,4 @@
 (6, 4)
 
 The difference between the two traversal algorithms is that the first one is goes in NESW order (because of a stack pop order) while exploring deeply into individual paths until they are exhausted. This is Depth first search (DFS).
-On the other hand the seconnd algorithm traverses uses Breadth first search (BFS) and goes in WSEN order (because of queue). It explores radially outwards, exploring coordinates closer to the source first to prevent inefficiencies in DFS.
+On the other hand the seconnd algorithm traverses uses Breadth first search (BFS)  and goes in WSEN order (because of queue). It explores radially outwards, exploring coordinates closer to the source first to prevent inefficiencies in DFS.

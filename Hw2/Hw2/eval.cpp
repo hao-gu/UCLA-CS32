@@ -177,6 +177,7 @@ bool evaluate_postfix(string postfix, int& result, const Map& values) {
 	cout << res;
 
 }*/
+
 /*int main()
 {
 	Map m;
@@ -273,5 +274,4 @@ bool evaluate_postfix(string postfix, int& result, const Map& values) {
 
 	cout << "Passed all tests" << endl;
 }
-
 */

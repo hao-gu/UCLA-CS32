@@ -48,7 +48,7 @@ bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er, int
     return false;
 }
 
-/*
+
 int main()
 {
     string maze[10] = {
@@ -68,4 +68,4 @@ int main()
         cout << "Solvable!" << endl;
     else
         cout << "Out of luck!" << endl;
-}*/
+}
