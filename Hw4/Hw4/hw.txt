@@ -1,0 +1,2 @@
+1e. when the vector capacity is reached, the old container is deleted and a new one is allocated, so the old iterators p and v.end() are invalidated and cannot be called.
+3. There is a build error because when a Map<Coord, int> calls insert, it calls findFirstAtLeast which compares key values with an operator. The coord class has not defined a < operator so its unable compare two KeyType Coord Objects, hence it does not compile.
