@@ -1,0 +1,2 @@
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/pkgs/zlib_x64-windows/debug/lib/zlibd.lib
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/pkgs/zlib_x64-windows/debug/bin/zlibd1.dll

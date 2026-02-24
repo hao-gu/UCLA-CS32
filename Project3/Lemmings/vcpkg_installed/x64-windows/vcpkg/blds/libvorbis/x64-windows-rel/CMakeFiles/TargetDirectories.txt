@@ -1,0 +1,13 @@
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/CMakeFiles/edit_cache.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/CMakeFiles/rebuild_cache.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/CMakeFiles/list_install_components.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/CMakeFiles/install.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/CMakeFiles/install/local.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/vorbis.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/vorbisenc.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/vorbisfile.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/edit_cache.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/rebuild_cache.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/list_install_components.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/install.dir
+C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libvorbis/x64-windows-rel/lib/CMakeFiles/install/local.dir
