@@ -16,28 +16,76 @@ public:
 
     virtual void doSomething() = 0;
 
-    virtual bool isFloorBrick() const;
-
     StudentWorld* getWorld() const;
+
+    bool canMove() const;
+    bool isAlive() const;
+    //do i need a dead member var
+
+    virtual bool blocksMovement() const { return false; }
+    virtual bool isHazard() const { return false; }
+    virtual bool isExit() const { return false; }
+    virtual bool isClimbable() const { return false; }
+    virtual bool isLaunchable() const { return false; }
+    virtual bool isLemming() const { return false; }
+    virtual bool isTool() const { return false; }
 
 private:
     StudentWorld* m_world;
+};
+
+class Player: public Actor {
+public:
+    Player(Coord startCoord, StudentWorld* world);
+    bool insideBounds(Coord coord_) const;
+    virtual void doSomething();
 };
 
 class FloorBrick : public Actor {
 public:
     FloorBrick(Coord startCoord, StudentWorld* world);
     virtual void doSomething();
-    bool isFloorBrick() const;
+    bool blocksMovement() const;
 };
 
 class IceMonster : public Actor {
 public:
     IceMonster(Coord startCoord, StudentWorld* world);
     virtual void doSomething();
+};
 
-private:
-    int m_direction; // left or right
+class Tool : public Actor {
+public:
+    Tool(int imageID, Coord startCoord, StudentWorld* world, int dir);
+    //abstract base class
+};
+
+class Trampoline : public Tool {
+    Trampoline(Coord startCoord, StudentWorld* world);
+    virtual void doSomething();
+    virtual bool isLaunchable() const;
+};
+
+class Net : public Tool {
+    Net(Coord startCoord, StudentWorld* world);
+    virtual void doSomething();
+    virtual bool isClimbable() const;
+};
+
+class OneWayDoor : public Tool {
+    OneWayDoor(Coord startCoord, StudentWorld* world, int dir);
+    virtual void doSomething();
+};
+
+class Pheromone : public Tool {
+    Pheromone(Coord startCoord, StudentWorld* world);
+    virtual void doSomething();
+};
+
+class Spring : public Tool {
+    Spring(Coord startCoord, StudentWorld* world);
+    virtual void doSomething();
+    virtual bool isLaunchable() const;
 };
 
 #endif // ACTOR_H_

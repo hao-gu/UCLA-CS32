@@ -51,6 +51,20 @@ int StudentWorld::init()
             }
         }
     }
+    m_tools['T'] = 0;
+    m_tools['N'] = 0;
+    m_tools['<'] = 0;
+    m_tools['>'] = 0;
+    m_tools['P'] = 0;
+    m_tools['S'] = 0;
+    for (char tool : level.getTools()) {
+        m_tools[tool]++;
+    }
+
+    m_player = new Player(Coord(VIEW_WIDTH / 2, VIEW_HEIGHT / 2), this);
+
+
+
     return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -59,11 +73,18 @@ int StudentWorld::move()
     // This code is here merely to allow the game to build, run, and terminate after you type q
 
     setGameStatText("Game will end when you type q");
+    m_tickCount++;
 
+    //do something
+    m_player->doSomething();
     for (Actor* a : m_actors)
         a->doSomething();
     
     return GWSTATUS_CONTINUE_GAME;
+}
+
+int StudentWorld::getTicks() const {
+    return m_tickCount;
 }
 
 void StudentWorld::cleanUp()
@@ -76,8 +97,57 @@ void StudentWorld::cleanUp()
 bool StudentWorld::isWallAt(int x, int y) const {
     for (Actor* a : m_actors) {
         if (a->getCoord().x == x && a->getCoord().y == y &&
-            a->isFloorBrick())
+            a->blocksMovement())
             return true;
     }
     return false;
+}
+
+bool StudentWorld::isHazardAt(int x, int y) const { 
+    return false; 
+}
+
+Actor* StudentWorld::getActorAt(int x, int y) const {
+    for (Actor* a : m_actors) {
+        if (a->getCoord().x == x && a->getCoord().y == y) {
+            return a;
+        }
+    }
+    return nullptr;
+}
+
+bool StudentWorld::hasTool(char tool) const {
+    if (m_tools.at(tool) > 0) {
+        return true;
+    }
+    return false;
+}
+
+bool StudentWorld::tryPlaceTool(char tool, Coord c) {
+    if (!hasTool('T') || getActorAt(c.x, c.y) != nullptr) {
+        return false;
+    }
+    int imID;
+    switch (tool) {
+    case 'T': 
+        m_actors.push_back(new Trampoline(c, this));
+        break;
+    case 'N':
+        m_actors.push_back(new Net(c, this));
+        break;
+    case '<':
+        m_actors.push_back(new OneWayDoor(c, this, left));
+        break;
+    case '>':
+        m_actors.push_back(new OneWayDoor(c, this, right));
+        break;
+    case 'P':
+        m_actors.push_back(new Pheromone(c, this));
+        break;
+    case 'S':
+        m_actors.push_back(new Spring(c, this));
+        break;
+    }
+    m_tools.at(tool)--;
+    return true;
 }
