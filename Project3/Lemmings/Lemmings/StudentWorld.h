@@ -29,6 +29,9 @@ public:
     bool isWallAt(int x, int y) const;
     bool isHazardAt(int x, int y) const;
     Actor* getActorAt(int x, int y) const;
+    bool isEmpty(int x, int y) const;
+
+    bool isPheromone(Coord c, int& direction) const; //sets direction to phermone if conditions are satisified
 
     //tools
     bool hasTool(char tool) const;

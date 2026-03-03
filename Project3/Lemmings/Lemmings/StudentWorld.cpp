@@ -146,6 +146,7 @@ bool StudentWorld::isHazardAt(int x, int y) const {
     return false; 
 }
 
+
 Actor* StudentWorld::getActorAt(int x, int y) const {
     for (Actor* a : m_actors) {
         if (a->getCoord().x == x && a->getCoord().y == y) {
@@ -153,6 +154,11 @@ Actor* StudentWorld::getActorAt(int x, int y) const {
         }
     }
     return nullptr;
+}
+
+
+bool StudentWorld::isEmpty(int x, int y) const {
+    return getActorAt(x, y) == nullptr;
 }
 
 bool StudentWorld::hasTool(char tool) const {

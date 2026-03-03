@@ -4,8 +4,8 @@
 // Students:  Add code to this file, Actor.h, StudentWorld.h, and StudentWorld.cpp
 
 
-Actor::Actor(int imageID, Coord startCoord, StudentWorld* world, int dir)
-    : GraphObject(imageID, startCoord, dir), m_world(world)
+Actor::Actor(int imageID, Coord startCoord, StudentWorld* world, int dir, bool alive)
+    : GraphObject(imageID, startCoord, dir), m_world(world), m_alive(alive)
 {
     setVisible(true);
 }
