@@ -61,28 +61,33 @@ public:
 };
 
 class Trampoline : public Tool {
+public:
     Trampoline(Coord startCoord, StudentWorld* world);
     virtual void doSomething();
     virtual bool isLaunchable() const;
 };
 
 class Net : public Tool {
+public:
     Net(Coord startCoord, StudentWorld* world);
     virtual void doSomething();
     virtual bool isClimbable() const;
 };
 
 class OneWayDoor : public Tool {
+public:
     OneWayDoor(Coord startCoord, StudentWorld* world, int dir);
     virtual void doSomething();
 };
 
 class Pheromone : public Tool {
+public:
     Pheromone(Coord startCoord, StudentWorld* world);
     virtual void doSomething();
 };
 
 class Spring : public Tool {
+public:
     Spring(Coord startCoord, StudentWorld* world);
     virtual void doSomething();
     virtual bool isLaunchable() const;

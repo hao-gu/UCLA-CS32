@@ -61,11 +61,29 @@ void Player::doSomething() {
             break;
         case 'T':
         case 't':
-            //... place a trampoline tool ...
-            
-                //place tool;
+            getWorld()->tryPlaceTool('T', getCoord());
             break;
-            // etc.
+        case 'N':
+        case 'n':
+            getWorld()->tryPlaceTool('N', getCoord());
+            break;
+     
+        case 'P':
+        case 'p':
+            getWorld()->tryPlaceTool('P', getCoord());
+            break;
+        case 'S':
+        case 's':
+            getWorld()->tryPlaceTool('S', getCoord());
+            break;
+        case '<':
+            getWorld()->tryPlaceTool('<', getCoord());
+            break;
+        case '>':
+            getWorld()->tryPlaceTool('>', getCoord());
+            break;
+        default:
+            break;
         }
     }
 }
@@ -99,7 +117,9 @@ void IceMonster::doSomething() {
     moveTo(Coord(newX, y));
 }
 Tool::Tool(int imageID, Coord startCoord, StudentWorld* world, int dir) 
-    : Actor(imageID, startCoord, world, dir) {}
+    : Actor(imageID, startCoord, world, dir) {
+    setVisible(true);
+}
 
 Trampoline::Trampoline(Coord startCoord, StudentWorld* world) 
     : Tool(IID_TRAMPOLINE, startCoord, world, right) {}

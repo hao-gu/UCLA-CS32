@@ -51,14 +51,6 @@ private:
     // Tool inventory
     std::unordered_map<char, int> m_tools;
 
-    /*int m_trampolineCount;
-    int m_netCount;
-    int m_springCount;
-    int m_pheromoneCount;
-    int m_leftDoorCount;
-    int m_rightDoorCount;
-    */
-
     int m_tickCount;
 };
 
