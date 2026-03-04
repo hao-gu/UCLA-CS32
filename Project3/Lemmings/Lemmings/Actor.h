@@ -15,6 +15,9 @@ public:
         walking, bouncing, falling, climbing
     };
 
+    const static int MAXIMUM_FALL_DISTANCE = 5;
+    const static int SPRING_BOUNCE_DIST = 15;
+
     Actor(int imageID, Coord startCoord, StudentWorld* world, int dir = right, bool alive = true);
 
     virtual ~Actor();
@@ -23,8 +26,9 @@ public:
 
     StudentWorld* getWorld() const;
 
-    bool canMove() const;
+    bool canMove(int ticks) const;
     bool isAlive() const;
+    void setDead(); 
     //do i need a dead member var
 
     virtual bool blocksMovement() const { return false; }
@@ -33,6 +37,7 @@ public:
     virtual bool isLemming() const { return false; }
     virtual bool isHazard() const { return false; }
     virtual bool isExit() const { return false; }
+    virtual bool isAttractor() const { return false; }
     virtual bool isTool() const { return false; }
 
 private:
@@ -43,7 +48,6 @@ private:
 class Player: public Actor {
 public:
     Player(Coord startCoord, StudentWorld* world);
-    bool insideBounds(Coord coord_) const;
     virtual void doSomething();
 };
 
@@ -57,6 +61,7 @@ public:
 class IceMonster : public Actor {
 public:
     IceMonster(Coord startCoord, StudentWorld* world);
+    virtual bool isHazard() const { return true; }
     virtual void doSomething();
 };
 
@@ -68,13 +73,29 @@ public:
 
 class Lemming : public Actor {
 public:
-    Lemming(Coord startCoord, StudentWorld* world);
+    Lemming(Coord startCoord, StudentWorld* world, LemmingState state=walking);
     virtual void doSomething();
-    int everyNTicks(LemmingState m_state); //4 for walking, 2 for other actions
-    virtual bool isLemming() const { return true; }
+    virtual bool isLemming() const { return isAlive(); }
     void saveLemming();
     void killLemming();
+
+    void setState(LemmingState state);
+    void setFallDistance(int d);
+    void setBounceTarget(int y);
+    void setBounceDistance(int d);
+    void incBounceDistance();
+
+    LemmingState getState() const;
+    int getFallDistance() const;
+    int getBounceTarget() const;
+    int getBounceDistance() const;
+
 private:
+    bool switchToClimb(Coord c);
+    bool checkNextWall(Coord c);
+    bool moveUp(Coord c);
+    int everyNTicks(LemmingState m_state); //4 for walking, 2 for other actions
+
     LemmingState m_state;
     int m_fallDistance;
     int m_bounceTarget;
@@ -84,6 +105,7 @@ private:
 class Bonfire : public Actor {
 public:
     Bonfire(Coord startCoord, StudentWorld* world);
+    virtual bool isHazard() const { return true; }
     virtual void doSomething(); //kill lemmings
 };
 
@@ -124,6 +146,7 @@ public:
 class Pheromone : public Tool {
 public:
     Pheromone(Coord startCoord, StudentWorld* world);
+    virtual bool isAttractor() const { return true; }
     virtual void doSomething();
 };
 

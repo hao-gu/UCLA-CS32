@@ -10,11 +10,14 @@
 
 class Actor;
 
+class Lemming;
+
 class StudentWorld : public GameWorld
 {
 public:
-    const int SPAWN_LIMIT = 10;
-    const int SAVE_REQUIREMENT = 5;
+    const static int LEMMING_SPAWN_LIMIT = 10;
+    const static int LEMMING_SAVE_REQUIREMENT = 5;
+    const static int GAME_INITIAL_TICK_COUNT = 2000;
 
     StudentWorld(std::string assetPath);
     virtual ~StudentWorld();
@@ -29,10 +32,10 @@ public:
     bool isWallAt(int x, int y) const;
     bool isHazardAt(int x, int y) const;
     Actor* getActorAt(int x, int y) const;
+    Lemming* getLemmingAt(int x, int y) const;
     bool isEmpty(int x, int y) const;
-
-    bool isPheromone(Coord c, int& direction) const; //sets direction to phermone if conditions are satisified
-
+    bool pheromonePresent(int x, int y, int& direction) const; //sets direction to phermone if conditions are satisified
+    bool insideBounds(Coord coord_) const;
     //tools
     bool hasTool(char tool) const;
     bool tryPlaceTool(char tool, Coord c);
@@ -41,6 +44,11 @@ public:
     void incSpawned();
     void incSaved();
     void incDied();
+    int getLemmingsSpawned() const;
+    int getLemmingsSaved() const;
+    int getLemmingsDied() const;
+
+    void spawnLemming(Coord c);
 
 
 private:

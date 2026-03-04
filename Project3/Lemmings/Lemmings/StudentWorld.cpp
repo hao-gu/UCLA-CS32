@@ -25,7 +25,7 @@ StudentWorld::~StudentWorld() {
 int StudentWorld::init()
 {
     cleanUp();
-    m_tickCount = 2000; //initializes ticks per level
+    m_tickCount = GAME_INITIAL_TICK_COUNT; //initializes ticks per level
 
     m_lemmingsSpawned = 0;
     m_lemmingsSaved = 0;
@@ -45,6 +45,15 @@ int StudentWorld::init()
         for (int y = 0; y < VIEW_HEIGHT; y++) {
             Level::MazeEntry me = level.getContentsOf(Coord(x, y));
             switch (me) {
+            case Level::lemming_factory:
+                m_actors.push_back(new LemmingFactory(Coord(x, y), this));
+                break;
+            case Level::bonfire:
+                m_actors.push_back(new Bonfire(Coord(x, y), this));
+                break;
+            case Level::lemming_exit:
+                m_actors.push_back(new Exit(Coord(x, y), this));
+                break;
             case Level::floor:
                 m_actors.push_back(new FloorBrick(Coord(x,y), this));
                 break;
@@ -95,20 +104,31 @@ int StudentWorld::move()
 {
     // This code is here merely to allow the game to build, run, and terminate after you type q
 
-    setGameStatText("Game will end when you type q");
+    //setGameStatText("Game will end when you type q");
     m_tickCount--;
 
     //do something
     m_player->doSomething();
     for (Actor* a : m_actors)
         a->doSomething();
-    
+
+    //remove dead actors
+    auto it = m_actors.begin();
+    while (it != m_actors.end()) {
+        if (!(*it)->isAlive()) {
+            delete* it;
+            it = m_actors.erase(it);
+        }
+        else {
+            it++;
+        }
+    }
 
     //display text
     string tools;
     for (unordered_map<char, int>::iterator it = m_tools.begin(); it != m_tools.end(); it++) {
         if (it->second == 0) continue;
-        tools += it->first * it->second;
+        tools += std::string(it->second, it->first);// it->first * it->second;
     }
     string score (5 - to_string(getScore()).size(), '0');
     score += to_string(getScore());
@@ -119,6 +139,43 @@ int StudentWorld::move()
     time += to_string(m_tickCount);
     string gameText = "Score: " + score + "  Level: " + level + "  Lives: 0" + lives + "  Saved: ##  Tools: " + tools + "  Time left: " + time;
     setGameStatText(gameText);
+    
+    //G or more than 5 dead
+    int ch;
+    getKey(ch);
+    if (m_lemmingsDied > LEMMING_SAVE_REQUIREMENT || ch == 'G' || ch == 'g') {
+        decLives();
+        return GWSTATUS_PLAYER_DIED;
+    }
+
+    //If out of time
+    if (m_tickCount <= 0) {
+       
+        if (m_lemmingsSaved < LEMMING_SAVE_REQUIREMENT) {
+            decLives();
+            return GWSTATUS_PLAYER_DIED;
+        }
+        else {
+            playSound(SOUND_FINISHED_LEVEL);
+            increaseScore(m_tickCount);
+            return GWSTATUS_FINISHED_LEVEL;
+        }
+    }
+    
+    if (m_lemmingsSpawned == LEMMING_SPAWN_LIMIT &&
+        m_lemmingsSaved + m_lemmingsDied == LEMMING_SPAWN_LIMIT)
+    {
+        if (m_lemmingsSaved >= LEMMING_SAVE_REQUIREMENT) {
+            playSound(SOUND_FINISHED_LEVEL);
+            increaseScore(m_tickCount);
+            return GWSTATUS_FINISHED_LEVEL;
+        }
+        else {
+            decLives();
+            return GWSTATUS_PLAYER_DIED;
+        }
+    }
+
     return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -131,6 +188,10 @@ void StudentWorld::cleanUp()
     for (Actor* a : m_actors)
         delete a;
     m_actors.clear();
+
+    delete m_player;
+    m_player = nullptr;
+
 }
 
 bool StudentWorld::isWallAt(int x, int y) const {
@@ -142,10 +203,16 @@ bool StudentWorld::isWallAt(int x, int y) const {
     return false;
 }
 
-bool StudentWorld::isHazardAt(int x, int y) const { 
-    return false; 
+bool StudentWorld::isHazardAt(int x, int y) const {
+    for (Actor* a : m_actors) {
+        if (a->isAlive() &&
+            a->isHazard() &&
+            a->getCoord().x == x &&
+            a->getCoord().y == y)
+            return true;
+    }
+    return false;
 }
-
 
 Actor* StudentWorld::getActorAt(int x, int y) const {
     for (Actor* a : m_actors) {
@@ -156,6 +223,42 @@ Actor* StudentWorld::getActorAt(int x, int y) const {
     return nullptr;
 }
 
+Lemming* StudentWorld::getLemmingAt(int x, int y) const {
+    for (Actor* a : m_actors) {
+        if (a->getCoord().x == x && a->getCoord().y == y && a->isLemming()) {
+            return static_cast<Lemming*>(a);
+        }
+    }
+    return nullptr;
+}
+
+bool StudentWorld::pheromonePresent(int x, int y, int& direction) const //sets direction to phermone if conditions are satisified
+{
+    for (int i = 1; i <= 5; i++) {
+        if (insideBounds(Coord(x + i, y))) {
+            if (getActorAt(x + i, y) != nullptr && getActorAt(x + i, y)->isAttractor()) {
+                direction = GraphObject::right;
+                return true;
+            }
+        }
+        if (insideBounds(Coord(x - i, y))) {
+            if (getActorAt(x - i, y) != nullptr && getActorAt(x - i, y)->isAttractor())
+            {
+                direction = GraphObject::left;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool StudentWorld::insideBounds(Coord coord_) const {
+    if (1 <= coord_.x && coord_.x <= VIEW_WIDTH - 2 &&
+        1 <= coord_.y && coord_.y <= VIEW_HEIGHT - 2) {
+        return true;
+    }
+    return false;
+}
 
 bool StudentWorld::isEmpty(int x, int y) const {
     return getActorAt(x, y) == nullptr;
@@ -169,7 +272,7 @@ bool StudentWorld::hasTool(char tool) const {
 }
 
 bool StudentWorld::tryPlaceTool(char tool, Coord c) {
-    if (!hasTool(tool) || getActorAt(c.x, c.y) != nullptr) {
+    if (!hasTool(tool) || !isEmpty(c.x, c.y)) {
         return false;
     }
     switch (tool) {
@@ -195,3 +298,17 @@ bool StudentWorld::tryPlaceTool(char tool, Coord c) {
     m_tools.at(tool)--;
     return true;
 }
+
+void StudentWorld::incSpawned() { m_lemmingsSpawned++;}
+void StudentWorld::incSaved() { m_lemmingsSaved++; }
+void StudentWorld::incDied() { m_lemmingsDied++; }
+int StudentWorld::getLemmingsSpawned() const {
+    return m_lemmingsSpawned;
+}
+int StudentWorld::getLemmingsSaved() const {
+    return m_lemmingsSaved;
+}
+int StudentWorld::getLemmingsDied() const {
+    return m_lemmingsDied;
+}
+
