@@ -312,3 +312,6 @@ int StudentWorld::getLemmingsDied() const {
     return m_lemmingsDied;
 }
 
+void StudentWorld::spawnLemming(Coord c) {
+    m_actors.push_back(new Lemming(c, this));
+}
