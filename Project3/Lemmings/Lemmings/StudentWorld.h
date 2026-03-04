@@ -32,8 +32,11 @@ public:
     bool isWallAt(int x, int y) const;
     bool isHazardAt(int x, int y) const;
     Actor* getActorAt(int x, int y) const;
+    Actor* getClimbableAt(int x, int y) const;
+    Actor* getAttractorAt(int x, int y) const;
     Lemming* getLemmingAt(int x, int y) const;
     bool isEmpty(int x, int y) const;
+    void setActorDir(int x, int y, int dir) const;
     bool pheromonePresent(int x, int y, int& direction) const; //sets direction to phermone if conditions are satisified
     bool insideBounds(Coord coord_) const;
     //tools

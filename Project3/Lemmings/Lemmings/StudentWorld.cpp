@@ -137,13 +137,13 @@ int StudentWorld::move()
     string saved = (m_lemmingsSaved < 10) ? "0" +  to_string(m_lemmingsSaved) : to_string(m_lemmingsSaved);
     string time(4 - to_string(m_tickCount).size(), '0');
     time += to_string(m_tickCount);
-    string gameText = "Score: " + score + "  Level: " + level + "  Lives: 0" + lives + "  Saved: ##  Tools: " + tools + "  Time left: " + time;
+    string gameText = "Score: " + score + "  Level: " + level + "  Lives: 0" + lives + "  Saved: " + saved + "  Tools: " + tools + "  Time left: " + time;
     setGameStatText(gameText);
     
     //G or more than 5 dead
     int ch;
     getKey(ch);
-    if (m_lemmingsDied > LEMMING_SAVE_REQUIREMENT || ch == 'G' || ch == 'g') {
+    if (m_lemmingsDied > LEMMING_SAVE_REQUIREMENT) { // || ch == 'G' || ch == 'g') {
         decLives();
         return GWSTATUS_PLAYER_DIED;
     }
@@ -223,6 +223,31 @@ Actor* StudentWorld::getActorAt(int x, int y) const {
     return nullptr;
 }
 
+Actor* StudentWorld::getClimbableAt(int x, int y) const {
+    for (Actor* a : m_actors) {
+        if (a->getCoord().x == x && a->getCoord().y == y && a->isClimbable()) {
+            return a;
+        }
+    }
+    return nullptr;
+}
+Actor* StudentWorld::getAttractorAt(int x, int y) const {
+    for (Actor* a : m_actors) {
+        if (a->getCoord().x == x && a->getCoord().y == y && a->isAttractor()) {
+            return a;
+        }
+    }
+    return nullptr;
+}
+
+void StudentWorld::setActorDir(int x, int y, int dir) const {
+    for (Actor* a : m_actors) {
+        if (a->getCoord().x == x && a->getCoord().y == y) {
+            a->setDirection(dir);
+        }
+    }
+}
+
 Lemming* StudentWorld::getLemmingAt(int x, int y) const {
     for (Actor* a : m_actors) {
         if (a->getCoord().x == x && a->getCoord().y == y && a->isLemming()) {
@@ -236,13 +261,13 @@ bool StudentWorld::pheromonePresent(int x, int y, int& direction) const //sets d
 {
     for (int i = 1; i <= 5; i++) {
         if (insideBounds(Coord(x + i, y))) {
-            if (getActorAt(x + i, y) != nullptr && getActorAt(x + i, y)->isAttractor()) {
+            if (getAttractorAt(x + i, y) != nullptr) {
                 direction = GraphObject::right;
                 return true;
             }
         }
         if (insideBounds(Coord(x - i, y))) {
-            if (getActorAt(x - i, y) != nullptr && getActorAt(x - i, y)->isAttractor())
+            if (getAttractorAt(x - i, y) != nullptr)
             {
                 direction = GraphObject::left;
                 return true;

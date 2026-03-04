@@ -121,7 +121,7 @@ void IceMonster::doSomething() {
         return;
     }
 
-    moveTo(Coord(newX, y));
+    moveTo(newCoord);
 }
 
 Tool::Tool(int imageID, Coord startCoord, StudentWorld* world, int dir) 
@@ -154,12 +154,7 @@ OneWayDoor::OneWayDoor(Coord startCoord, StudentWorld* world, int dir)
     : Tool(IID_ONE_WAY_DOOR, startCoord, world, dir) {}
 void OneWayDoor::doSomething() {
     Coord c = getCoord();
-    while (!getWorld()->isEmpty(c.x, c.y)) {
-        Actor* a = getWorld()->getActorAt(c.x, c.y);
-        if (a != nullptr) {
-            a->setDirection(getDirection()); //sets a's direction to doors direction
-        }
-    }
+    getWorld()->setActorDir(c.x, c.y, getDirection()); //sets a's direction to doors direction
 }
 
 
@@ -200,8 +195,8 @@ void Lemming::setState(LemmingState state) {
     m_state = state;
 }
 bool Lemming::switchToClimb(Coord c) {
-    Actor* a = getWorld()->getActorAt(c.x, c.y);
-    if (a!=nullptr && a->isClimbable()) {
+    Actor* a = getWorld()->getClimbableAt(c.x, c.y);
+    if (a!=nullptr) {
         m_state = climbing;
         return true;
     }
@@ -251,7 +246,7 @@ void Lemming::doSomething() {
             m_fallDistance = 0;
         }
         moveTo(next);
-        break;
+        return;
     }
     case falling:
     {
@@ -259,7 +254,7 @@ void Lemming::doSomething() {
         if (switchToClimb(here)) return;
         //2. check below
         Coord below = getTargetCoord(here, down);
-        if (getWorld()->isWallAt(below.x, below.y - 1)) {
+        if (getWorld()->isWallAt(below.x, below.y)) {
             if (m_fallDistance > MAXIMUM_FALL_DISTANCE) {
                 killLemming();
                 return;
@@ -270,7 +265,7 @@ void Lemming::doSomething() {
 
         m_fallDistance++;
         moveTo(below);
-        break;
+        return;
     }
     case climbing:
     {
@@ -281,7 +276,7 @@ void Lemming::doSomething() {
         }
         Coord above = getTargetCoord(here, up);
         moveUp(above);
-        break;
+        return;
     }
     case bouncing:
         // 1.check current square climbable
@@ -300,10 +295,11 @@ void Lemming::doSomething() {
             Coord next = getTargetCoord(here, getDirection());
             if (!checkNextWall(next))
                 moveTo(next);
+            m_fallDistance = 0;
             m_state = falling;
             return;
         }
-        break;
+        return;
     }
     default:
         break;
