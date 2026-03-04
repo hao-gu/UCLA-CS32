@@ -108,7 +108,7 @@ void IceMonster::doSomething() {
         return;
     }
     
-    if (!canMove(10)) return; 
+    if (!canMove(ICE_MONSTER_TICKS)) return; 
     
     Coord newCoord = getTargetCoord(getDirection());
     int newX = newCoord.x;
@@ -180,7 +180,7 @@ LemmingFactory::LemmingFactory(Coord startCoord, StudentWorld* world)
     : Actor(IID_LEMMING_FACTORY, startCoord, world, right) {
 }
 void LemmingFactory::doSomething() {
-    if (!canMove(100) || getWorld()->getTicks() > StudentWorld::GAME_INITIAL_TICK_COUNT - 100) return;
+    if (!canMove(LEMMING_FACTORY_TICKS) || getWorld()->getTicks() > StudentWorld::GAME_INITIAL_TICK_COUNT - LEMMING_FACTORY_TICKS) return;
     if (getWorld()->getLemmingsSpawned() < StudentWorld::LEMMING_SPAWN_LIMIT) {
         getWorld()->spawnLemming(getCoord());
         getWorld()->incSpawned();
@@ -189,7 +189,8 @@ void LemmingFactory::doSomething() {
 
 
 Lemming::Lemming(Coord startCoord, StudentWorld* world, LemmingState state)
-    : Actor(IID_LEMMING, startCoord, world, right), m_state(state) {}
+    : Actor(IID_LEMMING, startCoord, world, right), m_state(state),
+    m_fallDistance(0), m_bounceTarget(0), m_bounceDistance(0) {}
 
 void Lemming::setState(LemmingState state) {
     m_state = state;
@@ -307,8 +308,8 @@ void Lemming::doSomething() {
 }
 
 int Lemming::everyNTicks(LemmingState state) {
-    if (state == walking) return 4;
-    return 2;
+    if (state == walking) return LEMMING_WALK_TICKS;
+    return LEMMING_OTHER_TICKS;
 } //4 for walking, 2 for other actions
 void Lemming::saveLemming() {
     getWorld()->playSound(SOUND_LEMMING_SAVED);
@@ -358,6 +359,8 @@ Bonfire::Bonfire(Coord startCoord, StudentWorld* world)
     : Actor(IID_BONFIRE, startCoord, world, right) {
 }
 void Bonfire::doSomething() {
+    //increaseAnimationNumber();
+
     while (getWorld()->getLemmingAt(getCoord().x, getCoord().y) != nullptr) // will check for alive 
     {
         Lemming* a = getWorld()->getLemmingAt(getCoord().x, getCoord().y);

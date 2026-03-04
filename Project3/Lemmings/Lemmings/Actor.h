@@ -17,6 +17,10 @@ public:
 
     const static int MAXIMUM_FALL_DISTANCE = 5;
     const static int SPRING_BOUNCE_DIST = 15;
+    const static int LEMMING_WALK_TICKS = 4;
+    const static int LEMMING_OTHER_TICKS = 2;
+    const static int ICE_MONSTER_TICKS = 10;
+    const static int LEMMING_FACTORY_TICKS = 100;
 
     Actor(int imageID, Coord startCoord, StudentWorld* world, int dir = right, bool alive = true);
 

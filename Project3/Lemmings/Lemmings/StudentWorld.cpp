@@ -13,7 +13,8 @@ GameWorld* createStudentWorld(string assetPath)
 // Do not change or remove the createStudentWorld implementation above.
 
 StudentWorld::StudentWorld(string assetPath)
-: GameWorld(assetPath)
+    : GameWorld(assetPath), m_lemmingsDied(0), m_lemmingsSaved(0),
+    m_lemmingsSpawned(0), m_player(nullptr), m_tickCount(GAME_INITIAL_TICK_COUNT)
 {
 }
 
