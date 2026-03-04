@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="badlist.cpp" />
     <ClCompile Include="badvector.cpp" />
+    <ClCompile Include="list.cpp" />
     <ClCompile Include="oddlist.cpp" />
     <ClCompile Include="oddvector.cpp" />
     <ClCompile Include="test.cpp" />
