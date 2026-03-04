@@ -15,25 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="oddlist.cpp">
+    <ClCompile Include="mazestack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="oddvector.cpp">
+    <ClCompile Include="mazequeue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="badlist.cpp">
+    <ClCompile Include="eval.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="badvector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="list.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sorts.cpp">
+    <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

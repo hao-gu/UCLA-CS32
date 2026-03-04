@@ -430,3 +430,9 @@ FodyWeavers.xsd
 #myself misc
 *.pptx
 *.pdf
+
+# vcpkg-installed dependencies
+vcpkg_installed/
+
+# If you use a custom build directory where vcpkg might also nest it:
+**/vcpkg_installed/
