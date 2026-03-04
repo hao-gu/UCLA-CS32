@@ -1,6 +1,0 @@
-# CMake generated Testfile for 
-# Source directory: C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libflac/src/1.5.0-5ec0185c23.clean/src/share/replaygain_synthesis
-# Build directory: C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/libflac/x64-windows-dbg/src/share/replaygain_synthesis
-# 
-# This file includes the relevant testing commands required for 
-# testing this directory and lists subdirectories to be tested as well.

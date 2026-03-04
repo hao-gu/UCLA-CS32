@@ -1,9 +1,0 @@
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/brotlicommon.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/brotlidec.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/brotlienc.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/brotli.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/edit_cache.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/rebuild_cache.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/list_install_components.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/install.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-rel/CMakeFiles/install/local.dir

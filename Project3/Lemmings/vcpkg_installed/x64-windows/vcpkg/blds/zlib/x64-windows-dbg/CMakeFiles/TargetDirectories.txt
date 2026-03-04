@@ -1,7 +1,0 @@
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/zlib.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/test.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/edit_cache.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/rebuild_cache.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/list_install_components.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/install.dir
-C:/CS32/Project3/Lemmings/vcpkg_installed/x64-windows/vcpkg/blds/zlib/x64-windows-dbg/CMakeFiles/install/local.dir
