@@ -13,7 +13,9 @@ void Tokenizer::tokenize(const std::string& input)
 			curToken += tolower(c);
 		}
 		else {
-			m_tokens.push_back(curToken);
+			if (!curToken.empty()) {
+				m_tokens.push_back(curToken);
+			}
 			curToken = "";
 		}
 	}

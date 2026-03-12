@@ -12,6 +12,7 @@ public:
     {
     public:
         Iterator();
+        ~Iterator();
         Iterator(const std::vector<std::string>* values);
 
         virtual bool next(std::string& value);

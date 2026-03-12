@@ -11,6 +11,8 @@
 
 Multimap::Iterator::Iterator() : m_values(nullptr), m_pos(0) {}
 
+Multimap::Iterator::~Iterator() {}
+
 Multimap::Iterator::Iterator(const std::vector<std::string>* values) : m_values(values), m_pos(0) {}
 
 bool Multimap::Iterator::next(std::string& value) {
@@ -31,7 +33,7 @@ Multimap::~Multimap()
 	std::queue<Node*> q;
 	q.push(head);
 	Node* temp = nullptr;
-	while (q.empty()) {
+	while (!q.empty()) {
 		temp = q.front();
 		q.pop();
 		if (temp != nullptr) {

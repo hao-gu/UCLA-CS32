@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 Agent::Agent(const IndexBase& index)
     : m_index(index), m_terms_prompt(""), m_summarize_prompt("")
@@ -63,6 +64,9 @@ bool Agent::query(const std::string& question, std::string& answer)
     std::set<std::string> set_doc_names;
     std::vector<std::string> term_groups = split(terms_llm_response);
 
+
+    std::cout << "\nSearch terms from LLM:\n"; //delete later
+
     for (std::string term_group : term_groups) {
         if (term_group.empty()) continue;
 
@@ -71,6 +75,9 @@ bool Agent::query(const std::string& question, std::string& answer)
 
         std::vector<std::string> search_terms;
         std::string token;
+
+        std::cout << term_group << std::endl; //delete later
+        
         while (tokenizer->next(token)) {
             search_terms.push_back(token);
         }
@@ -82,17 +89,20 @@ bool Agent::query(const std::string& question, std::string& answer)
             set_doc_names.insert(doc);
         }
     }
+    
 
     if (set_doc_names.empty()) {
         return false;
     }
+
+    std::cout << "\nDocuments matching all search terms:\n" << std::endl; //delete later
 
     // Get first 10 sorted document names (set is already sorted)
     std::string documents_content = "";
     int count = 0;
     for (const std::string& doc_name : set_doc_names) {
         if (count >= 10) break;
-
+        std::cout << doc_name << std::endl; //delete later
         std::ifstream doc_file(doc_name);
         if (doc_file) {
             std::stringstream buffer;
