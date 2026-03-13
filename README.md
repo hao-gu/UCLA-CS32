@@ -1,2 +1,3 @@
-Data Structures & Algorithms projects from UCLA's CS32 Winter 2026
+Projects from my Data Structures & Algorithms class at UCLA
+
 
