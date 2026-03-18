@@ -24,10 +24,7 @@ void Index::add_doc(const std::string& doc_file)
 {
     TokenizerBase* t = create_tokenizer();
     std::ifstream infile(doc_file);
-    if (!infile) {
-        delete t;
-        return;
-    }
+    if (!infile) return;
 
     std::string line, token;
     while (std::getline(infile, line)) {

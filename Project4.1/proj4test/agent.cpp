@@ -32,8 +32,7 @@ std::vector<std::string> Agent::split(const std::string& s) {
             current += c;
         }
     }
-    if (!current.empty())  // only push if there's actual content
-        result.push_back(current);
+    result.push_back(current);
     return result;
 }
 
@@ -115,7 +114,6 @@ bool Agent::query(const std::string& question, std::string& answer)
             count++;
         }
     }
-
 
     // Prepare final prompt
     std::string summarize_prompt = m_summarize_prompt;

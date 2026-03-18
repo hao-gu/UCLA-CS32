@@ -24,10 +24,7 @@ void Index::add_doc(const std::string& doc_file)
 {
     TokenizerBase* t = create_tokenizer();
     std::ifstream infile(doc_file);
-    if (!infile) {
-        delete t;
-        return;
-    }
+    if (!infile) return;
 
     std::string line, token;
     while (std::getline(infile, line)) {
@@ -53,9 +50,6 @@ std::vector<std::string> Index::query(const std::vector<std::string>& terms) con
         while (it->next(file)) {
             current_files.insert(file);
         }
-        
-        delete it;
-        
         if (first) {
             files = current_files;
             first = false;

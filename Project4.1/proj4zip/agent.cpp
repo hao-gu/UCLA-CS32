@@ -32,8 +32,7 @@ std::vector<std::string> Agent::split(const std::string& s) {
             current += c;
         }
     }
-    if (!current.empty())  // only push if there's actual content
-        result.push_back(current);
+    result.push_back(current);
     return result;
 }
 
@@ -53,9 +52,6 @@ bool Agent::load_prompts(const std::string& terms_file, const std::string& summa
 
 bool Agent::query(const std::string& question, std::string& answer)
 {
-
-    if (m_terms_prompt.empty() || m_summarize_prompt.empty()) return false;
-
     // Get search terms from LLM
     std::string terms_full_prompt = m_terms_prompt;
     replace_all(terms_full_prompt, "{query}", question);
@@ -69,7 +65,7 @@ bool Agent::query(const std::string& question, std::string& answer)
     std::vector<std::string> term_groups = split(terms_llm_response);
 
 
-    std::cerr << "\nSearch terms from LLM:\n"; //delete later
+    std::cout << "\nSearch terms from LLM:\n"; //delete later
 
     for (std::string term_group : term_groups) {
         if (term_group.empty()) continue;
@@ -80,7 +76,7 @@ bool Agent::query(const std::string& question, std::string& answer)
         std::vector<std::string> search_terms;
         std::string token;
 
-        std::cerr << term_group << std::endl; //delete later
+        std::cout << term_group << std::endl; //delete later
         
         while (tokenizer->next(token)) {
             search_terms.push_back(token);
@@ -99,14 +95,14 @@ bool Agent::query(const std::string& question, std::string& answer)
         return false;
     }
 
-    std::cerr << "\nDocuments matching all search terms:\n" << std::endl; //delete later
+    std::cout << "\nDocuments matching all search terms:\n" << std::endl; //delete later
 
     // Get first 10 sorted document names (set is already sorted)
     std::string documents_content = "";
     int count = 0;
     for (const std::string& doc_name : set_doc_names) {
         if (count >= 10) break;
-        std::cerr << doc_name << std::endl; //delete later
+        std::cout << doc_name << std::endl; //delete later
         std::ifstream doc_file(doc_name);
         if (doc_file) {
             std::stringstream buffer;
@@ -115,7 +111,6 @@ bool Agent::query(const std::string& question, std::string& answer)
             count++;
         }
     }
-
 
     // Prepare final prompt
     std::string summarize_prompt = m_summarize_prompt;

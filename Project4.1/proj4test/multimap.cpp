@@ -31,7 +31,7 @@ Multimap::~Multimap()
 {
 	//delete whole tree
 	std::queue<Node*> q;
-	if (head != nullptr) q.push(head);
+	q.push(head);
 	Node* temp = nullptr;
 	while (!q.empty()) {
 		temp = q.front();
